@@ -25,11 +25,12 @@ Meteor.accounts._loginTokens = new Meteor.Collection(
 
 // Users table. Don't use the normal autopublish, since we want to hide
 // some fields. Code to autopublish this is in accounts_server.js.
-console.log("Creating Meteor.users collection. RemoteCollectionDriverWithCallbacks = ", Meteor.RemoteCollectionDriverWithCallbacks);
+var driver = null
+if(Meteor.isServer) {driver = Meteor.RemoteCollectionDriverWithCallbacks}
 Meteor.users = new Meteor.Collection(
   "users",
   null,
-  Meteor.RemoteCollectionDriverWithCallbacks,
+  driver,
   true);
 
 // Thrown when trying to use a login service which is not configured
